@@ -1,27 +1,56 @@
 #!/usr/bin/python3
-
+from tkinter import *
 import tkinter as tk
 from functools import partial
 
-manufacture = 0
-research = 0
-culture = 0
-   
-class Application(tk.Frame):
+global manufacture 
+global research 
+global culture
+global ascendencyToken 
+global command
+
+class Window(Frame):
+    #draws window
     def __init__(self, master=None):
-        super().__init__(master)
-        master.minsize(width=250, height=100)
-        self.pack(side="top")
+
+        Frame.__init__(self, master)
+        self.master = master
         self.buttons = {}
         self.resources = {}
-        self.create_button("Manufacture")
-        self.create_button("Research")
-        self.create_button("Culture")
-        self.create_button("Ascendency tokens")
+        self.init_window()
 
-    def add_resource(self, resource):
-        self.resources[resource] += 1
-        self.buttons[resource]["text"] = resource + " = " + str(self.resources[resource])
+    def init_window(self):
+
+        self.master.title("Trek counter")
+        self.pack(fill=BOTH, expand=1)
+
+        menu = Menu(self.master)
+        self.master.config(menu=menu)
+
+        phase = Menu(menu)
+        phase.add_command(label='Production', command=self.productionPhase)
+        phase.add_command(label='Build', command=self.buildPhase)
+        phase.add_command(label='Command', command=self.commandPhase)
+        phase.add_command(label='Start', command=self.startConditions)
+        menu.add_cascade(label='Selection', menu=phase)
+        
+        
+    def productionPhase(self):
+        self.place(x=10,y=10)
+        self.buttons = {}
+        self.create_button("Culture")
+        self.create_button("Research")
+        self.create_button("Manufacture")
+        
+              
+    def buildPhase(self):
+        ()
+        
+    def commandPhase(self):
+        ()
+        
+    def startConditions(self):
+        ()
 
     def create_button(self, name):
         self.resources[name] = 0
@@ -30,8 +59,16 @@ class Application(tk.Frame):
         self.buttons[name]["command"] = partial(self.add_resource, name)
         self.buttons[name].pack(side="top")
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = Application(master=root)
-    app.mainloop()
+    def add_resource(self, resource):
+        self.resources[resource] += 1
+        self.buttons[resource]["text"] = resource + " = " + str(self.resources[resource])
+        
+    def build_structure():
+        exit()
+    def sub_resource():
+        exit()
 
+root = Tk()
+root.geometry("400x300")
+app = Window(root)
+root.mainloop()
