@@ -17,7 +17,7 @@ class Faction:
         self.attack = attack
 
     def show_stats(self):
-        print(" {} level {}\n Manufacture = {}\n Research = {}\n Culture = {}\n Warp speed = {}\n Deflectors = {}\n Phasers = {}"
+        print(" {} level {}\n Manufacture = {}\n Research = {}\n Culture = {}\n Warp speed = {}\n Deflectors = {}\n Phasers = {}\n"
 .format(self.name, self.ascendancy, self.manufacturing, self.research, self.culture, self.speed, self.defense, self.attack))
 
     def ascend(self):
@@ -29,10 +29,12 @@ class Faction:
         pass
 
     def build_lab(self):
-        pass
+        self.research -= 1
+        self.manufacturing -= 1
 
     def build_civics(self):
-        pass
+        self.culture -= 1
+        self.manufacturing -= 1
 
     def build_starbase(self):
         pass
@@ -64,20 +66,15 @@ class Faction:
     def build_phase(self):
         self.show_stats()
         print("Build Phase, please select a construction.")
-        selection = int(input("1: Ship, 0: End \n"))
-        if selection == 1:
-            print ("The {} has produced another vessel.")
+        selection = int(input("1: Ship, 0: End \n \n"))
+        while selection != 0:
+            print ("The {} has produced another vessel.".format(self.name))
             self.manufacturing -= 1
             self.build_phase()
 
-        if selection == 0:
-            print("End of build phase, moving to command phase.")
-            self.command_phase()
-
         else:
-            print("Invalid choice, please try again.")
-            self.build_phase()
-        return()
+            print("End of build phase, moving to command phase.")
+            return()
 
     def command_phase(self):
         print("Commandstuff goes here need rules bye")
@@ -106,7 +103,7 @@ cardasian = Faction("The Cardassian Union", 1, 3, 3, 3, 1, 1, 1, 1, 1, 1)
 federation.show_stats()
 
 def game(name, ascendancy, manufacturing, research, culture, speed, m_node, r_node, c_node, defense, attack):
-    player = int(input("Which Faction's turn is it? \n 1: Federation \n 2: Klingons \n 3: Romulans \n 0: All players have gone"))#adtl factions added w/ rules updates
+    player = int(input("Which Faction's turn is it? \n 1: Federation \n 2: Klingons \n 3: Romulans \n 0: All players have gone\n \n"))#adtl factions added w/ rules updates
     if player == 1:
         federation.build_phase()
         federation.command_phase()
