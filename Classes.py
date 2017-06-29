@@ -28,19 +28,26 @@ class Faction:
     def build_factory(self):
         print("Building a Factory consumes 2 manufactuing, requires a red or grey location \n and produces 1 manufacturing on each upkeep.\n")
         factory_yes = int(-1)
-        factory_yes = int(input("Are you sure you wish to build a Factory?\n 1: Yes, 0: No"))
-        if factory_yes == 1:
-            print("\nPlease place a prodcution node of {} on the planet.\n".format(self.name))
-            self.manufacturing -=2
-            self.build_phase()
+        if self.manufacturing >= 2:
 
-        if factory_yes == 0:
-            print("\nA Factory was not built at this time, no resources were consumed.\n")
-            self.build_phase()
+            factory_yes = int(input("Are you sure you wish to build a Factory?\n 1: Yes, 0: No"))
+            if factory_yes == 1:
+                print("\nPlease place a prodcution node of {} on the planet.\n".format(self.name))
+                self.manufacturing -=2
+                self.build_phase()
 
-        if factory_yes != 1 or 0:
-            print("\nThat was an invalid selection, please try again.\n")
-            self.build_factory()
+            if factory_yes == 0:
+                print("\nA Factory was not built at this time, no resources were consumed.\n")
+                self.build_phase()
+
+            if factory_yes != 1 or 0:
+                print("\nThat was an invalid selection, please try again.\n")
+                self.build_factory()
+
+        if self.manufacturing << 2:
+            print("{} does not have the resources to build a production node at this time.".format(self, self.name))
+            input("")
+            self.build_phase()
 
     def build_lab(self): #this is the correct working model as of 6/5/2017 for structures, needs transposed onto all other types of construction
         print("Building a Laboratory consumes 2 Research and 1 Manufacturing, requires a blue or grey location \n and produces 1 Research on each upkeep.\n")
@@ -51,6 +58,7 @@ class Faction:
                 print("\nPlease place a research node of {} on the planet.\n".format(self.name))
                 self.manufacturing -=1
                 self.research -=2
+                self.r_node +=1
                 input("")
                 self.build_phase()
 
@@ -66,60 +74,88 @@ class Faction:
             print("\n{} does not have enough resources to build a research node at this time\n".format(self.name))
             input("")
 
-<<<<<<< Updated upstream
-    def build_lab(self):
-        self.research -= 1
-        self.manufacturing -= 1
-=======
->>>>>>> Stashed changes
-
     def build_civics(self):
-        self.culture -= 1
-        self.manufacturing -= 1
+        print("Building a culture node consumes 2 culture and 1 Manufacturing, requires a yellow or grey location \n and produces 1 culture on each upkeep.\n")
+        if self.manufacturing >= 1 and self.research >= 2:
+            civic_yes = int(-1)
+            civic_yes = int(input("Are you sure you wish to build a Laboratory?\n 1: Yes, 0: No\n"))
+            if civic_yes == 1:
+                print("\nPlease place a culture node of {} on the planet.\n".format(self.name))
+                self.manufacturing -=1
+                self.culture -=2
+                self.c_node +=1
+                input("")
+                self.build_phase()
+
+            if civic_yes == 0:
+                print("\nA culture node was not built at this time, no resources were consumed.\n")
+                self.build_phase()
+
+            if civic_yes != 1 or 0:
+                print("\nThat was an invalid selection, please try again.\n")
+                self.build_civics()
+
+        if self.manufacturing << 1 or self.culture << 2:
+            print("\n{} does not have enough resources to build a culture node at this time\n".format(self.name))
+            input("")
+
 
     def build_starbase(self):
         pass
 
     def build_colony(self):
         print("Building a colony consumes a ship in an unnocupied, habitable system and 1 culture.\n")
-        colony_yes = int(-1)
-        colony_yes = int(input("Are you sure you wish to build a colony?\n 1: Yes, 0: No"))
-        if colony_yes == 1:
-            print("\nPlease remove 1 ship from the system, and place a control node of {} on the planet.\n".format(self.name))
-            self.culture -=1
-            self.build_phase()
 
-        if colony_yes == 0:
-            print("\nA colony was not built at this time, no resources were consumed.\n")
-            self.build_phase()
+        if self.culture >= 1:
 
-        if colony_yes != 1 or 0:
-            print("\nThat was an invalid selection, please try again.\n")
-            self.build_colony()
+            colony_yes = int(-1)
+            colony_yes = int(input("Are you sure you wish to build a colony?\n 1: Yes, 0: No"))
+            if colony_yes == 1:
+                print("\nPlease remove 1 ship from the system, and place a control node of {} on the planet.\n".format(self.name))
+                self.culture -=1
+                self.build_phase()
+
+            if colony_yes == 0:
+                print("\nA colony was not built at this time, no resources were consumed.\n")
+                self.build_phase()
+
+            if colony_yes != 1 or 0:
+                print("\nThat was an invalid selection, please try again.\n")
+                self.build_colony()
+
+        if self.culture << 1:
+            print("{} does not have enough culture to colonize a planet at this time.".format(self,self.name))
 
     def build_ship(self):
         ships_made = int(0)
-        ships_made = int(input("\nHow many ships would you like to build? \n"))
-        if ships_made > self.manufacturing:
-            print("\n{} may place {} ships.\n".format(self.name, self.manufacturing))
-            self.manufacturing = 0
-            self.command_phase()
+        print("Ships cost 1 manufacturing each.\n")
+        if self.manufacturing >= 1:
+            ships_made = int(input("\nHow many ships would you like to build? \n"))
+            if ships_made > self.manufacturing:
+                print("\n{} may place {} ships.\n".format(self.name, self.manufacturing))
+                self.manufacturing = 0
+                self.command_phase()
 
-        if ships_made <= self.manufacturing:
-            print("\n{} may place {} ships.\n".format(self.name, ships_made))
-            self.manufacturing = self.manufacturing - ships_made
+            if ships_made <= self.manufacturing:
+                print("\n{} may place {} ships.\n".format(self.name, ships_made))
+                self.manufacturing = self.manufacturing - ships_made
+                self.build_phase()
+
+        if self.manufacturing <= 0:
+            print("{} do not have enough resources to build a ship at this time.".format(self, self.))
+            input("")
             self.build_phase()
 
     def upkeep_man(self):
-        self.manufacturing = manufacturing + m_node
+        self.manufacturing = self.manufacturing + self.m_node
         return(self.manufacturing)
 
     def upkeep_res(self):
-        self.research = research + r_node
+        self.research = self.research + self.r_node
         return(self.research)
 
     def upkeep_cul(self):
-        self.culture = culture + c_node
+        self.culture = self.culture + self.c_node
         return(self.culture)
 
     def upkeep_phase(self):
@@ -130,15 +166,8 @@ class Faction:
 
     def build_phase(self):
         self.show_stats()
-        print("Build Phase, please select a construction.")
-<<<<<<< Updated upstream
-        selection = int(input("1: Ship, 0: End \n \n"))
-        while selection != 0:
-            print ("The {} has produced another vessel.".format(self.name))
-            self.manufacturing -= 1
-            self.build_phase()
-=======
-        selection = int(input("\n1:Ships \n2:Colony \n3:Factory \n4:Laboratory \n5:Civic Center 0: End Build \n"))
+        print("\nBuild Phase, please select a construction.\n")
+        selection = int(input("\n1:Ships \n2:Colony \n3:Factory \n4:Laboratory \n5:Civic Center \n0: End Build \n"))
         if selection == 1:
            self.build_ship()
 
@@ -153,17 +182,14 @@ class Faction:
 
         if selection == 5:
             self.build_civics()
->>>>>>> Stashed changes
 
-        else:
-<<<<<<< Updated upstream
-            print("End of build phase, moving to command phase.")
-            return()
-=======
+        if selection == 6:
+            self.build_starbase()
+
+        elif():
             print("\nInvalid choice, please try again.\n")
             self.build_phase()
         return()
->>>>>>> Stashed changes
 
     def command_phase(self):
         print("Commandstuff goes here need rules bye")
@@ -177,7 +203,7 @@ class Vessel:
         self.warp = warp
         self.location = location
 
-class System:
+class Planet:
     pass
 
 
@@ -192,11 +218,8 @@ cardasian = Faction("The Cardassian Union", 1, 3, 3, 3, 1, 1, 1, 1, 1, 1)
 federation.show_stats()
 
 def game(name, ascendancy, manufacturing, research, culture, speed, m_node, r_node, c_node, defense, attack):
-<<<<<<< Updated upstream
-    player = int(input("Which Faction's turn is it? \n 1: Federation \n 2: Klingons \n 3: Romulans \n 0: All players have gone\n \n"))#adtl factions added w/ rules updates
-=======
-    player = int(input("Which Faction's turn is it? \n 1: Federation \n 2: Klingons \n 3: Romulans \n 4: All players have gone\n"))#adtl factions added w/ rules updates
->>>>>>> Stashed changes
+    player = int(input("\nWhich Faction's turn is it? \n 1: Federation \n 2: Klingons \n 3: Romulans \n 4: All players have gone\n"))#adtl factions added w/ rules updates
+
     if player == 1:
         federation.build_phase()
         federation.command_phase()
