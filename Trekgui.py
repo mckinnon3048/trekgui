@@ -1,7 +1,11 @@
 #!/usr/bin/python3
+"""
+Depreciated, saving for reference
+"""
 from tkinter import *
 import tkinter as tk
 from functools import partial
+import TrekUi
 
 #global variables for resources/structures **currently not implimented**
 manufacture = 0

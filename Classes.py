@@ -1,6 +1,33 @@
-import sys
-import random
-#gitversion
+from tkinter import *
+"""
+Depreciated file, only used for text based build, moving development to TrekUI.py for GUI
+"""
+class App:
+    def __init__(self, master):
+
+        master.minsize(width=200, height=200)
+        frame = Frame(master)
+        frame.grid(row=0)
+        App.launcher(self)
+
+
+    def launcher(self):
+        firstLaunch = Button(root, width=20, text="Ready to start?", command= start_game)
+        firstLaunch.grid(row=0, column=0, sticky=N)
+
+    def build_options(self):
+        frame = Frame(master)
+        buildShipgui = Button(root, text="###ship build text###")
+        buildShipgui.grid(row=1, column=0)
+        buildManugui = Button(root, text="###manufacture build text###")
+        buildManugui.grid(row=1, column=2)
+        buildcultgui = Button(root, text="###culture build text###")
+        buildresrgui = Button(root, text="###research build text###")
+        pass
+
+    def command_options(self):
+        pass
+
 
 class Faction:
     def __init__(self, name, ascendancy, manufacturing, research, culture, speed, m_node, r_node, c_node, defense, attack):
@@ -99,7 +126,6 @@ class Faction:
             print("\n{} does not have enough resources to build a culture node at this time\n".format(self.name))
             input("")
 
-
     def build_starbase(self):
         pass
 
@@ -142,7 +168,7 @@ class Faction:
                 self.build_phase()
 
         if self.manufacturing <= 0:
-            print("{} do not have enough resources to build a ship at this time.".format(self, self.))
+            print("{} do not have enough resources to build a ship at this time.".format(self, self.name))
             input("")
             self.build_phase()
 
@@ -166,6 +192,7 @@ class Faction:
 
     def build_phase(self):
         self.show_stats()
+        App.build_options
         print("\nBuild Phase, please select a construction.\n")
         selection = int(input("\n1:Ships \n2:Colony \n3:Factory \n4:Laboratory \n5:Civic Center \n0: End Build \n"))
         if selection == 1:
@@ -215,7 +242,7 @@ ferengi = Faction("The Ferengi Aliance", 1, 3, 3, 3, 1, 1, 1, 1, 1, 1)
 cardasian = Faction("The Cardassian Union", 1, 3, 3, 3, 1, 1, 1, 1, 1, 1)
 #[player_value = Faction(Name, starting values
 
-federation.show_stats()
+#federation.show_stats()
 
 def game(name, ascendancy, manufacturing, research, culture, speed, m_node, r_node, c_node, defense, attack):
     player = int(input("\nWhich Faction's turn is it? \n 1: Federation \n 2: Klingons \n 3: Romulans \n 4: All players have gone\n"))#adtl factions added w/ rules updates
@@ -242,7 +269,10 @@ def game(name, ascendancy, manufacturing, research, culture, speed, m_node, r_no
     else:
         game(name, ascendancy, manufacturing, research, culture, speed, m_node, r_node, c_node, defense, attack)
 
+def start_game():
+    game(None, None, None, None, None, None, None, None, None, None, None)
 
-
-
-game(None, None, None, None, None, None, None, None, None, None, None)
+root = Tk()
+root.title("Trek Gui")
+app = App(root)
+root.mainloop()
